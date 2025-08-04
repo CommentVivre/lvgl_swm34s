@@ -1,0 +1,88 @@
+/***
+	************************************************************************************************
+	*	@version V1.0
+	*  @date    2023-3-21
+	*	@author  反客科技	
+   ************************************************************************************************
+   *  @description
+	*
+	*	实验平台：反客 SWM34SVET6 核心板 （型号：FK-SWM34SVE-M1）
+	*	淘宝地址：https://shop212360197.taobao.com
+	*	QQ交流群：536665479
+	*
+>>>>> 文件说明：
+	*
+	*	SWM34S片内集成了8MB的SDRAM（16位宽），很多参数直接使用官方给的值即可，不需要改动也不能改动
+	*
+	************************************************************************************************
+***/
+
+#include "sdram.h"   
+
+
+/******************************************************************************************************
+*	函 数 名: SDRAM_Config
+*
+*	函数功能: SDRAM初始化
+*
+*	说    明: SDRAM用到的引脚是芯片内部就封装好的，不需要改动也不能改动
+*
+*******************************************************************************************************/
+
+void SDRAM_Config(void)
+{
+    SDRAM_InitStructure SDRAM_InitStruct;
+
+// 引脚配置，芯片内部封装好的，不需要改动也不能改动！！！
+    PORT_Init(PORTM, PIN13, PORTM_PIN13_SDR_CLK, 0);
+    PORT_Init(PORTM, PIN14, PORTM_PIN14_SDR_CKE, 0);
+    PORT_Init(PORTB, PIN7, PORTB_PIN7_SDR_WE, 0);
+    PORT_Init(PORTB, PIN8, PORTB_PIN8_SDR_CAS, 0);
+    PORT_Init(PORTB, PIN9, PORTB_PIN9_SDR_RAS, 0);
+    PORT_Init(PORTB, PIN10, PORTB_PIN10_SDR_CS, 0);
+    PORT_Init(PORTE, PIN15, PORTE_PIN15_SDR_BA0, 0);
+    PORT_Init(PORTE, PIN14, PORTE_PIN14_SDR_BA1, 0);
+    PORT_Init(PORTN, PIN14, PORTN_PIN14_SDR_A0, 0);
+    PORT_Init(PORTN, PIN13, PORTN_PIN13_SDR_A1, 0);
+    PORT_Init(PORTN, PIN12, PORTN_PIN12_SDR_A2, 0);
+    PORT_Init(PORTN, PIN11, PORTN_PIN11_SDR_A3, 0);
+    PORT_Init(PORTN, PIN10, PORTN_PIN10_SDR_A4, 0);
+    PORT_Init(PORTN, PIN9, PORTN_PIN9_SDR_A5, 0);
+    PORT_Init(PORTN, PIN8, PORTN_PIN8_SDR_A6, 0);
+    PORT_Init(PORTN, PIN7, PORTN_PIN7_SDR_A7, 0);
+    PORT_Init(PORTN, PIN6, PORTN_PIN6_SDR_A8, 0);
+    PORT_Init(PORTN, PIN3, PORTN_PIN3_SDR_A9, 0);
+    PORT_Init(PORTN, PIN15, PORTN_PIN15_SDR_A10, 0);
+    PORT_Init(PORTN, PIN2, PORTN_PIN2_SDR_A11, 0);
+    PORT_Init(PORTM, PIN15, PORTM_PIN15_SDR_A12, 0);
+    PORT_Init(PORTE, PIN7, PORTE_PIN7_SDR_D0, 1);
+    PORT_Init(PORTE, PIN6, PORTE_PIN6_SDR_D1, 1);
+    PORT_Init(PORTE, PIN5, PORTE_PIN5_SDR_D2, 1);
+    PORT_Init(PORTE, PIN4, PORTE_PIN4_SDR_D3, 1);
+    PORT_Init(PORTE, PIN3, PORTE_PIN3_SDR_D4, 1);
+    PORT_Init(PORTE, PIN2, PORTE_PIN2_SDR_D5, 1);
+    PORT_Init(PORTE, PIN1, PORTE_PIN1_SDR_D6, 1);
+    PORT_Init(PORTE, PIN0, PORTE_PIN0_SDR_D7, 1);
+    PORT_Init(PORTE, PIN8, PORTE_PIN8_SDR_D8, 1);
+    PORT_Init(PORTE, PIN9, PORTE_PIN9_SDR_D9, 1);
+    PORT_Init(PORTE, PIN10, PORTE_PIN10_SDR_D10, 1);
+    PORT_Init(PORTE, PIN11, PORTE_PIN11_SDR_D11, 1);
+    PORT_Init(PORTE, PIN12, PORTE_PIN12_SDR_D12, 1);
+    PORT_Init(PORTE, PIN13, PORTE_PIN13_SDR_D13, 1);
+    PORT_Init(PORTC, PIN14, PORTC_PIN14_SDR_D14, 1);
+    PORT_Init(PORTC, PIN15, PORTC_PIN15_SDR_D15, 1);
+    PORT_Init(PORTB, PIN6, PORTB_PIN6_SDR_LDQM, 0);
+    PORT_Init(PORTM, PIN12, PORTM_PIN12_SDR_UDQM, 0);
+
+    SDRAM_InitStruct.Size 			= SDRAM_SIZE_8MB;			// 容量8M字节
+    SDRAM_InitStruct.ClkDiv 		= SDRAM_CLKDIV_1;			// 不分频
+
+// 以下时序参数直接按照官方给的配置设置即可，不用改也不能改
+    SDRAM_InitStruct.CASLatency 	= SDRAM_CASLATENCY_3;	
+    SDRAM_InitStruct.TimeTRP  	= SDRAM_TRP_2;				
+    SDRAM_InitStruct.TimeTRCD		= SDRAM_TRCD_2;
+    SDRAM_InitStruct.TimeTRFC  	= SDRAM_TRFC_9;
+    SDRAM_Init(&SDRAM_InitStruct);
+
+}
+

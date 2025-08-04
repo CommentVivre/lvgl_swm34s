@@ -136,7 +136,7 @@ static void lv_uart_protocol(lv_obj_t * page)
     lv_obj_align(protocol_label, LV_ALIGN_TOP_LEFT, 20, 20);
 
     protocol_dropdown = lv_dropdown_create(page);
-    lv_dropdown_set_options(protocol_dropdown, "Modbus RTU\nModbus TCP\nCAN\nUART");
+    lv_dropdown_set_options(protocol_dropdown, "小米控制协议\n松下控制协议");
     lv_obj_align_to(protocol_dropdown, protocol_label, LV_ALIGN_OUT_RIGHT_MID, 10, 0);
     lv_obj_set_width(protocol_dropdown, 150);
 	lv_obj_add_event_cb(protocol_dropdown, event_handler, LV_EVENT_ALL, NULL);
@@ -157,7 +157,7 @@ static void lv_uart_protocol(lv_obj_t * page)
     lv_obj_align(serial_label, LV_ALIGN_TOP_LEFT, 20, 70);
 
     serial_port_dropdown = lv_dropdown_create(page);
-    lv_dropdown_set_options(serial_port_dropdown, "UART1\nUART2\n");
+    lv_dropdown_set_options(serial_port_dropdown, "通道1\n通道2");
     lv_obj_align_to(serial_port_dropdown, serial_label, LV_ALIGN_OUT_RIGHT_MID, 10, 0);
     lv_obj_set_width(serial_port_dropdown, 150);
 
@@ -190,7 +190,7 @@ static void lv_uart_protocol(lv_obj_t * page)
     lv_table_set_cell_value(data_table, 0, 4, "功率");
     lv_table_set_cell_value(data_table, 0, 5, "200.0W");
     lv_table_set_cell_value(data_table, 0, 6, "转速");
-    lv_table_set_cell_value(data_table, 0, 7, "3000.0RPM");
+    lv_table_set_cell_value(data_table, 0, 7, "3000RPM");
 
     lv_table_set_cell_value(data_table, 1, 0, "电压");
     lv_table_set_cell_value(data_table, 1, 1, "310.0V");
@@ -199,7 +199,7 @@ static void lv_uart_protocol(lv_obj_t * page)
     lv_table_set_cell_value(data_table, 1, 4, "功率");
     lv_table_set_cell_value(data_table, 1, 5, "200.0W");
     lv_table_set_cell_value(data_table, 1, 6, "转速");
-    lv_table_set_cell_value(data_table, 1, 7, "3000.0RPM");
+    lv_table_set_cell_value(data_table, 1, 7, "3000RPM");
 
     lv_table_set_cell_value(data_table, 2, 0, "电压");
     lv_table_set_cell_value(data_table, 2, 1, "310.0V");
@@ -208,7 +208,7 @@ static void lv_uart_protocol(lv_obj_t * page)
     lv_table_set_cell_value(data_table, 2, 4, "功率");
     lv_table_set_cell_value(data_table, 2, 5, "200.0W");
     lv_table_set_cell_value(data_table, 2, 6, "转速");
-    lv_table_set_cell_value(data_table, 2, 7, "3000.0RPM");
+    lv_table_set_cell_value(data_table, 2, 7, "3000RPM");
 	
 }
 

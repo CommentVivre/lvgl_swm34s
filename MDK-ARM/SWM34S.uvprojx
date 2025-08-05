@@ -1504,6 +1504,36 @@
               <FileType>1</FileType>
               <FilePath>..\LVGL\src\main\lv_font_sy_16.c</FilePath>
             </File>
+            <File>
+              <FileName>callback.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\LVGL\src\main\callback.c</FilePath>
+            </File>
+            <File>
+              <FileName>lv_board_control.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\LVGL\src\main\lv_board_control.c</FilePath>
+            </File>
+            <File>
+              <FileName>lv_color_def.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\LVGL\src\main\lv_color_def.c</FilePath>
+            </File>
+            <File>
+              <FileName>lv_compressor_control.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\LVGL\src\main\lv_compressor_control.c</FilePath>
+            </File>
+            <File>
+              <FileName>lv_fan_control.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\LVGL\src\main\lv_fan_control.c</FilePath>
+            </File>
+            <File>
+              <FileName>navigation.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\LVGL\src\main\navigation.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

@@ -1,39 +1,11 @@
-/***
-	************************************************************************************************
-	*	@version V1.0
-	*  @date    2023-3-21
-	*	@author  反客科技	
-   ************************************************************************************************
-   *  @description
-	*
-	*	实验平台：反客 SWM34SVET6 核心板 （型号：FK-SWM34SVE-M1）
-	*	淘宝地址：https://shop212360197.taobao.com
-	*	QQ交流群：536665479
-	*
->>>>> 文件说明：
-	*
-	*	SWM34S片内集成了8MB的SDRAM（16位宽），很多参数直接使用官方给的值即可，不需要改动也不能改动
-	*
-	************************************************************************************************
-***/
+#include "device.h"  
 
-#include "uart.h"   
-
-
-/******************************************************************************************************
-*	函 数 名: SDRAM_Config
-*
-*	函数功能: SDRAM初始化
-*
-*	说    明: SDRAM用到的引脚是芯片内部就封装好的，不需要改动也不能改动
-*
-*******************************************************************************************************/
-
+// sdram初始化
 void SDRAM_Config(void)
 {
     SDRAM_InitStructure SDRAM_InitStruct;
 
-// 引脚配置，芯片内部封装好的，不需要改动也不能改动！！！
+	// 引脚配置
     PORT_Init(PORTM, PIN13, PORTM_PIN13_SDR_CLK, 0);
     PORT_Init(PORTM, PIN14, PORTM_PIN14_SDR_CKE, 0);
     PORT_Init(PORTB, PIN7, PORTB_PIN7_SDR_WE, 0);
@@ -74,10 +46,10 @@ void SDRAM_Config(void)
     PORT_Init(PORTB, PIN6, PORTB_PIN6_SDR_LDQM, 0);
     PORT_Init(PORTM, PIN12, PORTM_PIN12_SDR_UDQM, 0);
 
-    SDRAM_InitStruct.Size 			= SDRAM_SIZE_8MB;			// 容量8M字节
-    SDRAM_InitStruct.ClkDiv 		= SDRAM_CLKDIV_1;			// 不分频
+    SDRAM_InitStruct.Size = SDRAM_SIZE_8MB;			// 容量8M字节
+    SDRAM_InitStruct.ClkDiv = SDRAM_CLKDIV_1;			// 不分频
 
-// 以下时序参数直接按照官方给的配置设置即可，不用改也不能改
+	// 时序参数
     SDRAM_InitStruct.CASLatency 	= SDRAM_CASLATENCY_3;	
     SDRAM_InitStruct.TimeTRP  	= SDRAM_TRP_2;				
     SDRAM_InitStruct.TimeTRCD		= SDRAM_TRCD_2;

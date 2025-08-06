@@ -1,4 +1,4 @@
-#include "uart.h"
+#include "device.h"
 
 
 
@@ -122,7 +122,7 @@ int fputc(int ch, FILE *f)
 
 
 
-
+// 计算IM1281B的校验码
 uint16_t calculate_crc16(const uint8_t *data, uint16_t length) 
 {
     uint16_t crc = 0xFFFF;  // 步骤1：预置CRC寄存器为0xFFFF
@@ -142,6 +142,7 @@ uint16_t calculate_crc16(const uint8_t *data, uint16_t length)
     return crc;  // 步骤7：返回最终CRC值
 }
 
+// 读取IM1281B数据
 void read_im1281b(uint8_t dev_addr,uint16_t reg_addr,uint16_t reg_len,uint8_t *buf)
 {
 	uint16_t calc_crc=0x0000;

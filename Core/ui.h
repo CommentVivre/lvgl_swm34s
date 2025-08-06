@@ -1,7 +1,7 @@
-﻿#pragma once
+#pragma once
+
 #include <lvgl.h>
 #include <string.h>
-
 #include "lv_color_def.h"
 
 #ifdef __cplusplus
@@ -49,9 +49,6 @@ extern lv_obj_t* toggle_btn;      // 切换导航按钮
 extern bool nav_visible;   // 导航是否可见
 
 
-
-
-
 lv_obj_t* lv_navigation_layer(lv_obj_t* layer);
 void lv_board_control(lv_obj_t* page);
 
@@ -60,5 +57,5 @@ void lv_board_control(lv_obj_t* page);
 void lv_compressor_control(lv_obj_t* page);
 
 #ifdef __cplusplus
-} /* extern "C" */
+}
 #endif

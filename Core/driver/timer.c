@@ -1,4 +1,5 @@
-#include "uart.h"
+#include "device.h"
+
 uint32_t input_h,input_l;
 // 配置基本定时器的PWM输出 参数单位为us
 void timer_moudle_init(void)
@@ -18,7 +19,7 @@ void timer_moudle_init(void)
 	TIMR_OC_Init(BTIMR2, 40, 0, 0);		// 高电平时间
 	// TIMR_Start(BTIMR2);
 }
-
+// 输入捕获配置
 void timer_fg_init(void)
 {
 	PORT_Init(PORTM, PIN15, PORTM_PIN15_TIMR2_IN, 1);

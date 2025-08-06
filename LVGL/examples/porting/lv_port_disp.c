@@ -5,7 +5,7 @@
 
 #include "lv_port_disp.h"
 #include <stdbool.h>
-#include "uart.h"
+#include "device.h"
 
 #define MY_DISP_HOR_RES LCD_Width
 #define MY_DISP_VER_RES LCD_Height

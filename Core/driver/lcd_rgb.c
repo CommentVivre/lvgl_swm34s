@@ -1,39 +1,4 @@
-/***
-	************************************************************************************************************************************************************************************************
-	*	@version V1.0
-	*  @date    2023-3-27
-	*	@author  反客科技	
-   **********************************************************************************************************************************************************************************************
-   *  @description
-	*
-	*	实验平台：反客 SWM34SVET6 核心板 （型号：FK-SWM34SVE-M1）+ 反客800*480分辨率的RGB屏幕
-	*	淘宝地址：https://shop212360197.taobao.com
-	*	QQ交流群：536665479
-	*
->>>>> 重要说明：
-	*
-	*	例程中，x、y坐标的原点为（0,0）
-	*
->>>>> 文件说明：
-	*
-	*	1. 中文字库使用的是小字库，即用到了对应的汉字再去取模，用户可以根据需求自行增添或删减
-	*	2. 各个函数的功能和使用可以参考函数的说明以及例程的测试函数
-	*
-	*********************************************************************************************************************************************************************************************FANKE*****
-***/
-
-#include "uart.h"
-
-
-//屏幕相关参数结构体
-struct	
-{
-	uint32_t Color;  				//	LCD当前画笔颜色
-	uint32_t BackColor;			//	背景色
-	uint8_t  Direction;			//	显示方向
-	uint8_t  ShowNum_Mode;		// 数字显示模式
-}LCD_CFG;
-
+#include "device.h"
 
 /*************************************************************************************************
 *	函 数 名:	LCDC_IO_Init
@@ -45,7 +10,7 @@ struct
 void LCD_IO_Init(void)
 {
 
-#if LCD_ColorMode == LCD_FMT_RGB888 	// 如果使用 24位 RGB888 格式			
+	#if LCD_ColorMode == LCD_FMT_RGB888 	// 如果使用 24位 RGB888 格式			
 	
 	PORT_Init(PORTC, PIN4,  PORTC_PIN4_LCD_R0,  0);		// 初始化 RGB 信号的 R2-R0	
 	PORT_Init(PORTC, PIN5,  PORTC_PIN5_LCD_R1,  0);
@@ -58,26 +23,23 @@ void LCD_IO_Init(void)
 	PORT_Init(PORTB, PIN11, PORTB_PIN11_LCD_B1, 0);
 	PORT_Init(PORTB, PIN13, PORTB_PIN13_LCD_B2, 0);	
 	
-#else	
-// 如果使用16位色 RGB565，则低位的数据线不能设置为复用模式，并且不能浮空，否则某些颜色会显示不正常或者有噪点，
-//	因为这些引脚虽然没有用到，但是也接到了FPC排线，容易受干扰，此处全部设置为推挽输出
+	#else	
+	// 如果使用16位色 RGB565，则低位的数据线不能设置为复用模式，并且不能浮空，否则某些颜色会显示不正常或者有噪点，
+	//	因为这些引脚虽然没有用到，但是也接到了FPC排线，容易受干扰，此处全部设置为推挽输出
 
-// RGB 信号的 R2-R0	
+	// RGB 信号的 R2-R0	
 	GPIO_Init(GPIOC, PIN4, 1, 0, 0, 0);		// 输出模式、禁止上拉、禁止下拉、推挽，
 	GPIO_Init(GPIOC, PIN5, 1, 0, 0, 0);		// 输出模式、禁止上拉、禁止下拉、推挽
 	GPIO_Init(GPIOC, PIN8, 1, 0, 0, 0);		// 输出模式、禁止上拉、禁止下拉、推挽
-
-// RGB 信号的 G1-G0		
+	// RGB 信号的 G1-G0		
 	GPIO_Init(GPIOA, PIN12, 1, 0, 0, 0);	// 输出模式、禁止上拉、禁止下拉、推挽
 	GPIO_Init(GPIOA, PIN13, 1, 0, 0, 0);	// 输出模式、禁止上拉、禁止下拉、推挽
-
-// RGB 信号的 B2-B0
+	// RGB 信号的 B2-B0
 	GPIO_Init(GPIOB, PIN1, 1, 0, 0, 0);		// 输出模式、禁止上拉、禁止下拉、推挽
 	GPIO_Init(GPIOB, PIN11, 1, 0, 0, 0);	// 输出模式、禁止上拉、禁止下拉、推挽
 	GPIO_Init(GPIOB, PIN13, 1, 0, 0, 0);	// 输出模式、禁止上拉、禁止下拉、推挽	
+	#endif		
 
-#endif		
-	
 	PORT_Init(PORTC, PIN9,  PORTC_PIN9_LCD_R3,  0);			// 初始化 RGB 信号的 R7-R3
 	PORT_Init(PORTC, PIN10, PORTC_PIN10_LCD_R4, 0);
 	PORT_Init(PORTC, PIN11, PORTC_PIN11_LCD_R5, 0);
@@ -122,11 +84,11 @@ void RGB_LCD_Init(void)
 	LCD_InitStructure 	LCD_initStruct;
 	DMA2D_InitStructure 	DMA2D_initStruct;
 	
-	DMA2D_initStruct.Interval = CyclesPerUs;		// 初始化DMA2D
+	DMA2D_initStruct.Interval = CyclesPerUs;					// 初始化DMA2D
 	DMA2D_initStruct.IntEOTEn = 0;
 	DMA2D_Init(&DMA2D_initStruct);
 	
-	LCD_IO_Init();	// 初始化LCD的IO口、背光引脚等
+	LCD_IO_Init();												// 初始化LCD的IO口、背光引脚等
 
 	
 	LCD_initStruct.ClkDiv 		= 3; 							// 像素时钟 = 单片机主频（150M）/ ClkDiv ，此时为30MHz
@@ -143,14 +105,11 @@ void RGB_LCD_Init(void)
 	
 	LCD_initStruct.DataSource 	= LCD_MemoryAdd;				// 显存地址
 	LCD_initStruct.Background 	= 0xFFFFFF;						// 默认背景色
-	LCD_initStruct.SampleEdge 	= LCD_SAMPLE_FALL;			// 数据下降沿有效	
-	LCD_initStruct.IntEOTEn 	= 0;								// 不启用帧中断
+	LCD_initStruct.SampleEdge 	= LCD_SAMPLE_FALL;				// 数据下降沿有效	
+	LCD_initStruct.IntEOTEn 	= 0;							// 不启用帧中断
 	LCD_Init(LCD, &LCD_initStruct);								// 初始化配置
 
 	LCD_Start(LCD);	// 启动刷屏
-
-
 	LCD_Backlight_ON;	// 开启背光
-
 }
 

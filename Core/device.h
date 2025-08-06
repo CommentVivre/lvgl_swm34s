@@ -48,8 +48,6 @@ uint8_t	KEY_Scan(void);							//按键扫描
 #define SDRAM_BANK_ADDR ((uint32_t)0x80000000) 	// SDRAM 地址
 
 
-void SDRAM_Config(void);						// SDRAM初始化
-
 // 定义颜色格式
 // LCD_FMT_RGB565 RGB565 一个像素点占16位
 // LCD_FMT_RGB888 RGB888 一个像素点占32位
@@ -130,17 +128,17 @@ extern volatile TouchStructure touchInfo;	// 触摸数据结构体声明
 
 /*------------------------------------------ 触摸引脚宏 ----------------------------------*/
 
-#define Touch_IIC_SCL_PORT   			 PORTA                 				// SCL 引脚端口
-#define Touch_IIC_SCL_PIN     		 PORTA_PIN1_I2C0_SCL  				// SCL 引脚
+#define Touch_IIC_SCL_PORT PORTA							// SCL 引脚端口
+#define Touch_IIC_SCL_PIN PORTA_PIN1_I2C0_SCL				// SCL 引脚
          
-#define Touch_IIC_SDA_PORT   			 PORTA                   			// SDA 引脚端口
-#define Touch_IIC_SDA_PIN    			 PORTA_PIN0_I2C0_SDA             // SDA 引脚
+#define Touch_IIC_SDA_PORT PORTA                   			// SDA 引脚端口
+#define Touch_IIC_SDA_PIN PORTA_PIN0_I2C0_SDA				// SDA 引脚
 
-#define Touch_INT_PORT   				 GPIOD                   			// INT 引脚端口
-#define Touch_INT_PIN    				 PIN0             					// INT 引脚
+#define Touch_INT_PORT GPIOD                   				// INT 引脚端口
+#define Touch_INT_PIN PIN0             						// INT 引脚
 
-#define Touch_RST_PORT   				 GPIOA                   			// RST 引脚端口
-#define Touch_RST_PIN    				 PIN5           						// RST 引脚
+#define Touch_RST_PORT GPIOA								// RST 引脚端口
+#define Touch_RST_PIN PIN5           						// RST 引脚
 
 
 #define Touch_INT_L			GPIO_AtomicClrBit(Touch_INT_PORT, Touch_INT_PIN)				// 输出低电平
@@ -187,10 +185,6 @@ void 	Touch_Scan(void);		// 触摸扫描
 #define W25Qxx_FLASH_ID           			0X1740EF    // W25Q64 JEDEC ID
 //#define W25Qxx_FLASH_ID           			0X1840EF    // W25Q128 JEDEC ID
 
-
-/*----------------------------------------------- 函数声明 ---------------------------------------------------*/
-
-int8_t 	SFC_W25Qxx_Init(void);	   // 初始化W25Q64
 
 void SFC_W25Qxx_SectorErase(uint32_t SectorAddress);			// 扇区擦除，4K字节， 参考擦除时间 45ms	
 void SFC_W25Qxx_BlockErase_32K (uint32_t SectorAddress);	// 块擦除，  32K字节，参考擦除时间 120ms

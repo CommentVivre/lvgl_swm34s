@@ -1,43 +1,15 @@
-/****
-	***********************************************************************************************************************************************************************************
-	*	@version V1.0
-	*  @date    2023-4-6
-	*	@author  反客科技	
-   ************************************************************************************************************************************************************************************
-   *  @description
-	*
-	*	实验平台：反客 SWM34SVET6 核心板 （型号：FK-SWM34SVE-M1）
-	*	淘宝地址：https://shop212360197.taobao.com
-	*	QQ交流群：536665479
-	*
->>>>>文件说明：
-	*
-	*	1.W25QXX的擦除时间是限定的!!! 手册给出的典型参考值为: 4K-45ms, 32K-120ms ,64K-150ms,整片擦除20S
-	*
-	*	2.W25QXX的写入时间是限定的!!! 手册给出的典型参考值为: 256字节-0.4ms，也就是 1M字节/s （实测大概在600K字节/s左右）
-	*
-	*
->>>>>重要说明（摘抄自《SWM34Sxxxx驱动TFT-LCD应用笔记》）：	
+#include "device.h"
 
-	LCDC 使用的是 AHB 总线，当其他外设长时间抢占 AHB 总线时（例如 SFC 写入会占用 AHB 总线较大的带
-	宽）有可能会导致 LCDC 无法及时响应输出数据，表现为显示画面上下闪烁条纹/晃动，故用户应在应用层通过软
-	件设计尽量避免此类情况的发生（例如 SFC 写入时关闭屏幕显示）。
-	
-	对于 SFC 写入影响 LCD 刷屏，目前有以下做法供参考：
-	
-	1、转用 IO 模拟 SPI 通讯来 Write SPI_Flash (注意: SFC 与 IO_SPI 之间多次反复的端口初始化切换);
-	
-	2、减小 SFC Write 单次写入数据量, 增加 SFC Write 总写入次数(即多次调用, 反复短时占用->释放总线,
-	缓解 LCD 显示需求)。
-	
-	总结：SFC如果要和LCDC一起用，则只适合用来存数据，例如LVGL应用中，用来存各种UI资源，因为程序下载进去之后，
-			单片机运行时SFC只进行读数据，因此不会有上面提到的冲突
-	
+// 1.W25QXX的擦除时间是限定的!!! 手册给出的典型参考值为: 4K-45ms, 32K-120ms ,64K-150ms,整片擦除20S
+// 2.W25QXX的写入时间是限定的!!! 手册给出的典型参考值为: 256字节-0.4ms，也就是 1M字节/s （实测大概在600K字节/s左右）
 
-	**************************************************************************************************************************************************************************************FANKE*****
-***/
+// 摘抄自《SWM34Sxxxx驱动TFT-LCD应用笔记》：	
+// LCDC 使用的是 AHB 总线，当其他外设长时间抢占 AHB 总线时（例如 SFC 写入会占用 AHB 总线较大的带宽）有可能会导致 LCDC 无法及时响应输出数据，表现为显示画面上下闪烁条纹/晃动
+// 对于 SFC 写入影响 LCD 刷屏，目前有以下做法供参考：
+// 1、转用 IO 模拟 SPI 通讯来 Write SPI_Flash (注意: SFC 与 IO_SPI 之间多次反复的端口初始化切换);
+// 2、减小 SFC Write 单次写入数据量, 增加 SFC Write 总写入次数(即多次调用, 反复短时占用->释放总线,缓解 LCD 显示需求)。
 
-#include "uart.h"
+// 总结：SFC如果要和LCDC一起用，则只适合用来存数据，例如LVGL应用中，用来存各种UI资源，因为程序下载进去之后，单片机运行时SFC只进行读数据，因此不会有上面提到的冲突
 
 /*************************************************************************************************
 *	函 数 名: SFC_W25Qxx_Init
@@ -48,23 +20,23 @@
 
 int8_t SFC_W25Qxx_Init(void)
 {
-	uint32_t	Device_ID;					// 器件的ID
+	uint32_t Device_ID;
 	SFC_InitStructure SFC_initStruct;
 
 	/* SFC使用专用的FSPI（Flash SPI）接口连接SPI Flash */
-	PORT_Init(PORTD, PIN5, PORTD_PIN5_FSPI_SCLK,  0);
-	PORT_Init(PORTD, PIN6, PORTD_PIN6_FSPI_SSEL,  0);
-	PORT_Init(PORTD, PIN8, PORTD_PIN8_FSPI_MOSI,  1);
-	PORT_Init(PORTD, PIN7, PORTD_PIN7_FSPI_MISO,  1);
+	PORT_Init(PORTD, PIN5, PORTD_PIN5_FSPI_SCLK, 0);
+	PORT_Init(PORTD, PIN6, PORTD_PIN6_FSPI_SSEL, 0);
+	PORT_Init(PORTD, PIN8, PORTD_PIN8_FSPI_MOSI, 1);
+	PORT_Init(PORTD, PIN7, PORTD_PIN7_FSPI_MISO, 1);
 	PORT_Init(PORTD, PIN3, PORTD_PIN3_FSPI_DATA2, 1);
 	PORT_Init(PORTD, PIN4, PORTD_PIN4_FSPI_DATA3, 1);
 	
-// SFC 驱动时钟 = 内核时钟 150MHz / ClkDiv 
-	SFC_initStruct.ClkDiv 				= SFC_CLKDIV_2;								// 2分频，则驱动时钟为75M
-	SFC_initStruct.Cmd_Read 			= W25Qxx_CMD_FastReadQuad_IO;				// 读命令
-	SFC_initStruct.Width_Read 			= SFC_RDWIDTH_4;								// 4线读操作模式
-	SFC_initStruct.Cmd_PageProgram 	= W25Qxx_CMD_QuadInputPageProgram;		// 页编程命令
-	SFC_initStruct.Width_PageProgram = SFC_PPWIDTH_4;								// 4线写操作模式
+	// SFC 驱动时钟 = 内核时钟 150MHz / ClkDiv 
+	SFC_initStruct.ClkDiv = SFC_CLKDIV_2;									// 2分频，则驱动时钟为75M
+	SFC_initStruct.Cmd_Read = W25Qxx_CMD_FastReadQuad_IO;					// 读命令
+	SFC_initStruct.Width_Read = SFC_RDWIDTH_4;								// 4线读操作模式
+	SFC_initStruct.Cmd_PageProgram = W25Qxx_CMD_QuadInputPageProgram;		// 页编程命令
+	SFC_initStruct.Width_PageProgram = SFC_PPWIDTH_4;						// 4线写操作模式
 
 	SFC_Init(&SFC_initStruct);  
 
@@ -226,9 +198,3 @@ void SFC_W25Qxx_ReadBuffer(uint32_t* pBuffer, uint32_t ReadAddr, uint32_t NumByt
 {
 	SFC_Read(ReadAddr, pBuffer, NumByteToRead);
 }
-
-
-//	实验平台：反客 SWM34SVET6 核心板 （型号：FK-SWM34SVE-M1）
-
-/********************************************************************************************************************************************************************************************************FANKE**********/
-

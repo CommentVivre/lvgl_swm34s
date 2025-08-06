@@ -11,7 +11,7 @@
  *********************/
 #include "lv_port_indev.h"
 #include "../../lvgl.h"
-#include "uart.h"
+#include "device.h"
 
 /*********************
  *      DEFINES

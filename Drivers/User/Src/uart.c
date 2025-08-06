@@ -1,5 +1,9 @@
 #include "uart.h"
 
+
+
+uint8_t uart1_rx_buffer[uart1_tx_rx_max_len]={0},uart1_tx_buffer[uart1_tx_rx_max_len]={0};
+
 /**
  * @function     UART0_Init
  * @brief        串口初始化
@@ -48,16 +52,36 @@ void UART1_Init(void)
 	UART_initStruct.TXThreshold = 3;							// TX FIFO阈值	
 	UART_initStruct.TXThresholdIEn = 0;							// 当TX FIFO中数据个数 <= TXThreshold时触发中断
 	UART_initStruct.TimeoutTime = 10;							// 超时时长 = TimeoutTime/(Baudrate/10) 秒
-	UART_initStruct.TimeoutIEn = 0;								// 超时中断，超过 TimeoutTime/(Baudrate/10) 秒没有在RX线上接收到数据时触发中断
-	
+	UART_initStruct.TimeoutIEn = 1;								// 超时中断，超过 TimeoutTime/(Baudrate/10) 秒没有在RX线上接收到数据时触发中断
  	UART_Init(UART1, &UART_initStruct);
 	UART_Open(UART1);
+	
+	// DMA配置
+	DMA_InitStructure DMA_initStruct;
+	// 接收配置
+	DMA_initStruct.Mode = DMA_MODE_SINGLE;
+	DMA_initStruct.Unit = DMA_UNIT_BYTE;
+	DMA_initStruct.Count = uart1_tx_rx_max_len;
+	DMA_initStruct.SrcAddr = (uint32_t)&UART1->DATA;
+	DMA_initStruct.SrcAddrInc = 0;
+	DMA_initStruct.DstAddr = (uint32_t)uart1_rx_buffer;
+	DMA_initStruct.DstAddrInc = 1;
+	DMA_initStruct.Handshake = DMA_CH0_UART1RX;
+	DMA_initStruct.Priority = DMA_PRI_LOW;
+	DMA_initStruct.INTEn = 0;
+	DMA_CH_Init(DMA_CH0, &DMA_initStruct);
+	// 发送配置
+	DMA_initStruct.Mode = DMA_MODE_SINGLE;
+	DMA_initStruct.Unit = DMA_UNIT_BYTE;
+	DMA_initStruct.SrcAddrInc = 1;
+	DMA_initStruct.DstAddr = (uint32_t)&UART1->DATA;
+	DMA_initStruct.DstAddrInc = 0;
+	DMA_initStruct.Handshake = DMA_CH1_UART1TX;
+	DMA_initStruct.Priority = DMA_PRI_LOW;
+	DMA_initStruct.INTEn = DMA_IT_DONE;
+	DMA_CH_Init(DMA_CH1, &DMA_initStruct);
+	
 }
-
-
-
-
-
 
 /*************************************************************************************************
 *	LVGL因为需要用__aeabi_assert，因此不能再勾选 microLib 以使用printf
@@ -96,3 +120,38 @@ int fputc(int ch, FILE *f)
 	return (ch);
 }
 
+
+
+
+uint16_t calculate_crc16(const uint8_t *data, uint16_t length) 
+{
+    uint16_t crc = 0xFFFF;  // 步骤1：预置CRC寄存器为0xFFFF
+
+    for (uint16_t i = 0; i < length; i++) {
+        crc ^= data[i];     // 步骤2：当前字节与CRC低字节异或
+
+        for (uint16_t j = 0; j < 8; j++) {  // 处理每个字节的8位
+            uint8_t lsb = crc & 1;     // 获取最低位
+            crc >>= 1;                 // 步骤3：右移一位（高位补0）
+
+            if (lsb) {                 // 步骤4：检测移出的最低位
+                crc ^= 0xA001;         // 若为1则与预设值异或
+            }
+        }
+    }
+    return crc;  // 步骤7：返回最终CRC值
+}
+
+void read_im1281b(uint8_t dev_addr,uint16_t reg_addr,uint16_t reg_len,uint8_t *buf)
+{
+	uint16_t calc_crc=0x0000;
+	buf[0]=dev_addr; // 地址位
+	buf[1]=0x03; // 读命令
+	buf[2]=reg_addr >>8; // 高地址
+	buf[3]=reg_addr&0xFF;
+	buf[4]=reg_len>>8;
+	buf[5]=reg_len&0xFF;
+	calc_crc=calculate_crc16(buf,6);
+	buf[6]=calc_crc&0xFF;
+	buf[7]=calc_crc>>8;
+}

@@ -10,7 +10,7 @@
       <TargetName>SWM34S</TargetName>
       <ToolsetNumber>0x4</ToolsetNumber>
       <ToolsetName>ARM-ADS</ToolsetName>
-      <pCCUsed>6230000::V6.23::ARMCLANG</pCCUsed>
+      <pCCUsed>6210000::V6.21::ARMCLANG</pCCUsed>
       <uAC6>1</uAC6>
       <TargetOption>
         <TargetCommonOption>
@@ -340,7 +340,7 @@
               <MiscControls>-Wno-invalid-source-encoding</MiscControls>
               <Define></Define>
               <Undefine></Undefine>
-              <IncludePath>..\Core\Inc;..\Drivers\CMSIS\CoreSupport;..\Drivers\CMSIS\DeviceSupport;..\Drivers\SWM341_StdPeriph_Driver;..\Drivers\User\Inc;..\LVGL;..\LVGL\src;..\LVGL\src\core;..\LVGL\src\draw;..\LVGL\src\draw\arm2d;..\LVGL\src\draw\nxp\pxp;..\LVGL\src\draw\nxp\vglite;..\LVGL\src\draw\sdl;..\LVGL\src\draw\stm32_dma2d;..\LVGL\src\draw\sw;..\LVGL\src\draw\swm341_dma2d;..\LVGL\src\extra;..\LVGL\src\extra\layouts;..\LVGL\src\extra\layouts\flex;..\LVGL\src\extra\layouts\grid;..\LVGL\src\extra\libs;..\LVGL\src\extra\libs\bmp;..\LVGL\src\extra\libs\ffmpeg;..\LVGL\src\extra\libs\freetype;..\LVGL\src\extra\libs\fsdrv;..\LVGL\src\extra\libs\gif;..\LVGL\src\extra\libs\png;..\LVGL\src\extra\libs\qrcode;..\LVGL\src\extra\libs\rlottie;..\LVGL\src\extra\libs\sjpg;..\LVGL\src\extra\others;..\LVGL\src\extra\others\fragment;..\LVGL\src\extra\others\gridnav;..\LVGL\src\extra\others\ime;..\LVGL\src\extra\others\imgfont;..\LVGL\src\extra\others\monkey;..\LVGL\src\extra\others\msg;..\LVGL\src\extra\others\snapshot;..\LVGL\src\extra\themes;..\LVGL\src\extra\themes\basic;..\LVGL\src\extra\themes\default;..\LVGL\src\extra\themes\mono;..\LVGL\src\extra\widgets;..\LVGL\src\extra\widgets\animimg;..\LVGL\src\extra\widgets\calendar;..\LVGL\src\extra\widgets\chart;..\LVGL\src\extra\widgets\colorwheel;..\LVGL\src\extra\widgets\imgbtn;..\LVGL\src\extra\widgets\keyboard;..\LVGL\src\extra\widgets\led;..\LVGL\src\extra\widgets\list;..\LVGL\src\extra\widgets\menu;..\LVGL\src\extra\widgets\meter;..\LVGL\src\extra\widgets\msgbox;..\LVGL\src\extra\widgets\span;..\LVGL\src\extra\widgets\spinbox;..\LVGL\src\extra\widgets\spinner;..\LVGL\src\extra\widgets\tabview;..\LVGL\src\extra\widgets\tileview;..\LVGL\src\extra\widgets\win;..\LVGL\src\font;..\LVGL\src\hal;..\LVGL\src\misc;..\LVGL\src\widgets;..\LVGL\examples\porting;..\FreeRTOS\include;..\FreeRTOS\portable\GCC\ARM_CM33_NTZ\non_secure;..\FreeRTOS\portable\GCC\ARM_CM33\non_secure;..\FreeRTOS\portable\GCC\ARM_CM33\secure;..\FreeRTOS\CMSIS_RTOS_V2;..\FreeRTOS;..\LVGL\demos\widgets;..\LVGL\demos\widgets\assets;..\LVGL\demos\benchmark;..\LVGL\demos\benchmark\assets;..\LVGL\demos\music;..\LVGL\demos\music\assets;..\LVGL\src\main</IncludePath>
+              <IncludePath>..\Drivers\CMSIS\CoreSupport;..\Drivers\CMSIS\DeviceSupport;..\Drivers\SWM341_StdPeriph_Driver;..\Drivers\User\Inc;..\LVGL;..\LVGL\src;..\LVGL\src\core;..\LVGL\src\draw;..\LVGL\src\draw\arm2d;..\LVGL\src\draw\nxp\pxp;..\LVGL\src\draw\nxp\vglite;..\LVGL\src\draw\sdl;..\LVGL\src\draw\stm32_dma2d;..\LVGL\src\draw\sw;..\LVGL\src\draw\swm341_dma2d;..\LVGL\src\extra;..\LVGL\src\extra\layouts;..\LVGL\src\extra\layouts\flex;..\LVGL\src\extra\layouts\grid;..\LVGL\src\extra\libs;..\LVGL\src\extra\libs\bmp;..\LVGL\src\extra\libs\ffmpeg;..\LVGL\src\extra\libs\freetype;..\LVGL\src\extra\libs\fsdrv;..\LVGL\src\extra\libs\gif;..\LVGL\src\extra\libs\png;..\LVGL\src\extra\libs\qrcode;..\LVGL\src\extra\libs\rlottie;..\LVGL\src\extra\libs\sjpg;..\LVGL\src\extra\others;..\LVGL\src\extra\others\fragment;..\LVGL\src\extra\others\gridnav;..\LVGL\src\extra\others\ime;..\LVGL\src\extra\others\imgfont;..\LVGL\src\extra\others\monkey;..\LVGL\src\extra\others\msg;..\LVGL\src\extra\others\snapshot;..\LVGL\src\extra\themes;..\LVGL\src\extra\themes\basic;..\LVGL\src\extra\themes\default;..\LVGL\src\extra\themes\mono;..\LVGL\src\extra\widgets;..\LVGL\src\extra\widgets\animimg;..\LVGL\src\extra\widgets\calendar;..\LVGL\src\extra\widgets\chart;..\LVGL\src\extra\widgets\colorwheel;..\LVGL\src\extra\widgets\imgbtn;..\LVGL\src\extra\widgets\keyboard;..\LVGL\src\extra\widgets\led;..\LVGL\src\extra\widgets\list;..\LVGL\src\extra\widgets\menu;..\LVGL\src\extra\widgets\meter;..\LVGL\src\extra\widgets\msgbox;..\LVGL\src\extra\widgets\span;..\LVGL\src\extra\widgets\spinbox;..\LVGL\src\extra\widgets\spinner;..\LVGL\src\extra\widgets\tabview;..\LVGL\src\extra\widgets\tileview;..\LVGL\src\extra\widgets\win;..\LVGL\src\font;..\LVGL\src\hal;..\LVGL\src\misc;..\LVGL\src\widgets;..\LVGL\examples\porting;..\FreeRTOS\include;..\FreeRTOS\portable\GCC\ARM_CM33_NTZ\non_secure;..\FreeRTOS\portable\GCC\ARM_CM33\non_secure;..\FreeRTOS\portable\GCC\ARM_CM33\secure;..\FreeRTOS\CMSIS_RTOS_V2;..\FreeRTOS;..\LVGL\demos\widgets;..\LVGL\demos\widgets\assets;..\LVGL\demos\benchmark;..\LVGL\demos\benchmark\assets;..\LVGL\demos\music;..\LVGL\demos\music\assets;..\LVGL\src\main</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -387,12 +387,12 @@
             <File>
               <FileName>main.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Core\Src\main.c</FilePath>
+              <FilePath>..\Core\main.c</FilePath>
             </File>
             <File>
               <FileName>swm341_it.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Core\Src\swm341_it.c</FilePath>
+              <FilePath>..\Core\swm341_it.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -438,6 +438,11 @@
               <FileName>sfc_w25q64.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Drivers\User\Src\sfc_w25q64.c</FilePath>
+            </File>
+            <File>
+              <FileName>timer.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Drivers\User\Src\timer.c</FilePath>
             </File>
           </Files>
         </Group>

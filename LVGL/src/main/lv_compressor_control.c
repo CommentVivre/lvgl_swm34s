@@ -109,6 +109,8 @@ static void input_event_handler(lv_event_t* e) {
     case LV_EVENT_VALUE_CHANGED:
         // 文本内容改变时触发
         break;
+	default:
+		break;
     }
 }
 

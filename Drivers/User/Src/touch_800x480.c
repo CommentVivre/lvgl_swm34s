@@ -20,7 +20,7 @@
 ***/
 
 
-#include "touch_800x480.h"
+#include "uart.h"
 
 volatile TouchStructure touchInfo; 			//	触摸信息结构体，在函数 Touch_Scan() 里被调用，存储触摸数据
 
@@ -32,7 +32,7 @@ volatile TouchStructure touchInfo; 			//	触摸信息结构体，在函数 Touch
 *	
 ************************************************************************************************************************************/
 
-void	Touch_IIC_Config(void) 	
+void Touch_IIC_Config(void) 	
 {
 	I2C_InitStructure I2C_initStruct;
 
@@ -243,15 +243,22 @@ void Touch_Init(void)
 	Touch_IIC_Config(); 	// 初始化IIC引脚、配置等
 	GT9XX_Reset();			// 复位触摸IC
 
-	GT9XX_ReadBuff	(GT9XX_ID_ADDR,11,GT9XX_Info);		// 读触摸屏IC信息
+	GT9XX_ReadBuff (GT9XX_ID_ADDR,11,GT9XX_Info);		// 读触摸屏IC信息
 	GT9XX_ReadBuff (GT9XX_CFG_ADDR,1,&cfgVersion);	// 读触摸配置版本
 	
 	if( GT9XX_Info[0] == '9' )	//判断第一个字符是否为 9
 	{
+		#if 0
 		printf("Touch ID: GT%.4s \r\n",GT9XX_Info);	//打印触摸芯片的ID
 		printf("固件版本： 0X%.4x\r\n",(GT9XX_Info[5]<<8) + GT9XX_Info[4]);	// 芯片固件版本
 		printf("触摸分辨率：%d * %d\r\n",(GT9XX_Info[7]<<8) + GT9XX_Info[6],(GT9XX_Info[9]<<8) +GT9XX_Info[8]);	// 当前触摸分辨率		
 		printf("触摸参数配置版本： 0X%.2x \r\n",cfgVersion);	// 触摸配置版本	
+		// 中断触摸配置
+		EXTI_Init(Touch_INT_PORT, Touch_INT_PIN, EXTI_FALL_EDGE);
+		NVIC_EnableIRQ(GPIOD_IRQn);
+		EXTI_Open(GPIOA, PIN0);
+		GT9XX_WriteData(0x804D,0x00);
+		#endif
 	}
 	else
 	{

@@ -11,7 +11,7 @@
  *********************/
 #include "lv_port_indev.h"
 #include "../../lvgl.h"
-#include "touch_800x480.h"
+#include "uart.h"
 
 /*********************
  *      DEFINES
